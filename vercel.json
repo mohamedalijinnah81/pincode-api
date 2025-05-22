@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/postoffices.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/postoffices", "dest": "/api/postoffices.js" }
+  ]
+}
+    
