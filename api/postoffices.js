@@ -11,7 +11,13 @@ module.exports = (req, res) => {
 
   // Read and parse the JSON file
   const filePath = path.join(__dirname, '..', 'data.json');
-  const rawData = fs.readFileSync(filePath);
+  let rawData = fs.readFileSync(filePath, 'utf8');
+
+  // Remove BOM if present
+  if (rawData.charCodeAt(0) === 0xFEFF) {
+    rawData = rawData.slice(1);
+  }
+
   const data = JSON.parse(rawData);
 
   // Filter data by pincode
