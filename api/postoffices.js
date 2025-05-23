@@ -1,26 +1,13 @@
 // api/postoffices.js
-const fs = require('fs');
-const path = require('path');
+import data from '../lib/data.json'; // Assuming JSON is in /lib and inside Vercel build scope
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   const { pincode } = req.query;
 
   if (!pincode) {
     return res.status(400).json({ error: "Missing 'pincode' query parameter" });
   }
 
-  // Read and parse the JSON file
-  const filePath = path.join(__dirname, '..', 'data.json');
-  let rawData = fs.readFileSync(filePath, 'utf8');
-
-  // Remove BOM if present
-  if (rawData.charCodeAt(0) === 0xFEFF) {
-    rawData = rawData.slice(1);
-  }
-
-  const data = JSON.parse(rawData);
-
-  // Filter data by pincode
   const filtered = data.Sheet1.filter(
     (entry) => entry.Pincode === pincode
   );
@@ -30,4 +17,4 @@ module.exports = (req, res) => {
   }
 
   return res.status(200).json(filtered);
-};
+}
